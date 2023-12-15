@@ -25,7 +25,7 @@ Fronted - рисовать или печатать данные на экран�
     • [+] на день;
     • [+] на неделю;
     • [+] на месяц.
-■ [+] При отображении должна быть возможность сортировки:
+■ [] При отображении должна быть возможность сортировки:
     • [] по приоритету;
     • [] по дате и времени исполнения.
 */
@@ -34,6 +34,7 @@ Fronted - рисовать или печатать данные на экран�
 #include <ctime>
 #include <string>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 struct Task
@@ -70,7 +71,7 @@ struct Task
 };
 
 struct TodoList {
-    vector<Task> m_data;
+    vector<Task> m_data; // m_data.size()
     vector<int> intVector;
 
     void AddTask(string n, int p, string d, time_t s, time_t e) {
@@ -80,7 +81,8 @@ struct TodoList {
         m_data.erase(m_data.begin() + index);
     }
 
-    void EditTask(int index, string name = "", int p = -1, string d = "", time_t s = 0, time_t e = 0) {
+    void EditTask(int index, string name = "", int p = -1, string d = "",
+        time_t s = 0, time_t e = 0) {
         if (name != "")
             m_data[index].name = name;
         if (p != -1)
@@ -168,13 +170,39 @@ struct TodoList {
         return GetListByDateRange(day, 30);
     }
 
+    void DisplayTasks() {
+        for (size_t i = 0; i < m_data.size(); i++)
+        {
+            cout << m_data[i].GetString() << endl;
+        }
+    }
+
+    void SortByPriority() {
+        sort(m_data.begin(), m_data.end(), [](const Task& a, const Task& b) {
+            return a.priority < b.priority;
+            });
+    }
+
+    void SortByStartDate() {
+        sort(m_data.begin(), m_data.end(), [](const Task& a, const Task& b) {
+            return a.startDate < b.startDate;
+            });
+    }
 
 };
+
+/*
+Меню:
+[1] - добавить дело
+[2] - удалить дело
+[3] - вывести список всех дел
+
+
+*/
 
 int main()
 {
     Task task("name", 1, "some description", 0, 0);
-    std::cout << task.GetString();
+    cout << task.GetString();
+
 }
-
-
