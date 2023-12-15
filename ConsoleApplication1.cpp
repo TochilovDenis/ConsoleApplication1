@@ -43,8 +43,8 @@ struct Task
     • название;
     • приоритет;
     • описание;
+    • дата создания;
     • дата - срок время исполнения.
-    • дата создания
     */
     string name;
     int priority;
@@ -130,12 +130,23 @@ struct TodoList {
         string result = "";
         for (size_t i = 0; i < m_data.size(); i++)
         {
-            if (!m_data[i].done)
+            if (m_data[i].creationDate < day && day <= m_data[i].estimationDate > day)
             {
-                //result += m_data[i].
+                result += m_data[i].GetString();
             }
         }
+        return result;
     }
+
+    string GetListByDateRangeOnWeek(time_t day) {
+        string result = "";
+        for (size_t i = 0; i < m_data.size(); i++)
+        {
+            
+        }
+        return result;
+    }
+
 };
 
 
